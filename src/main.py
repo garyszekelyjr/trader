@@ -1,4 +1,4 @@
-import pprint
+import math
 
 import pandas as pd
 
@@ -7,20 +7,25 @@ import formulas
 
 history = pd.read_csv("history.csv", header=[0, 1], low_memory=False)
 
+stocks = {}
 if isinstance(history.columns, pd.MultiIndex):
     fields = history.columns.levels[0]
     tickers = history.columns.levels[1]
-
-    rows = {}
     for ticker in tickers:
         try:
-            rsi = formulas.rsi(history["Close", ticker])
+            closes = history["Close", ticker]
+            if isinstance(closes, pd.Series):
+                ma = formulas.ma(closes)
+                rsi = formulas.rsi(closes)
 
-            if rsi == 100:
-                continue
+                if math.isnan(ma) or math.isnan(rsi):
+                    continue
 
-            rows[ticker] = rsi
+                stocks[ticker] = {"ma": ma, "rsi": rsi}
         except Exception:
             pass
 
-    pprint.pprint(rows["AAPL"])
+df = pd.DataFrame(stocks).T
+
+print(df.sort_values("rsi", ascending=False).head())
+print(df.sort_values("rsi", ascending=False).tail())
