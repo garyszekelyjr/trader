@@ -1,0 +1,5 @@
+pyjwt
+python-dotenv
+requests
+sqlalchemy
+tqdm
