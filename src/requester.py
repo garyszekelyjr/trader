@@ -1,6 +1,5 @@
 from typing import List
 
-import json
 import requests
 
 from .authenticator import Authenticator

@@ -1,7 +1,8 @@
 __pycache__/
 
 *.csv
-*.sqlite
 *.json
+*.pem
+*.sqlite
 
 .env
