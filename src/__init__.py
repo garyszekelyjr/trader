@@ -8,7 +8,9 @@ from sqlalchemy import create_engine
 from .models import Base
 
 
-load_dotenv()
+SECRETS = Path("secrets/")
+
+load_dotenv(SECRETS / ".env")
 
 CLIENT_ID = os.getenv("SCHWAB_CLIENT_ID", "")
 

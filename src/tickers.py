@@ -11,8 +11,8 @@ from .. import models, ENGINE
 
 load_dotenv()
 
-NAME = os.getenv("NAME")
-EMAIL = os.getenv("EMAIL")
+NAME = os.getenv("NAME", "")
+EMAIL = os.getenv("EMAIL", "")
 
 with Session(ENGINE) as session:
     session.query(models.Ticker).delete()

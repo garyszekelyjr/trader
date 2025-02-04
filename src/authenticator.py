@@ -9,7 +9,7 @@ from threading import Thread
 from http.server import BaseHTTPRequestHandler, HTTPServer
 from urllib.parse import urlencode
 
-from . import CLIENT_ID, REDIRECT_URI, PEM_PASSWORD, TOKENS, schwab
+from . import CLIENT_ID, REDIRECT_URI, PEM_PASSWORD, SECRETS, TOKENS, schwab
 
 
 class Authenticator:
@@ -39,7 +39,7 @@ class Authenticator:
     def __init__(self):
         self.server = HTTPServer(("127.0.0.1", 443), Authenticator.Handler)
         context = ssl.SSLContext(ssl.PROTOCOL_TLS_SERVER)
-        context.load_cert_chain("cert.pem", "key.pem", PEM_PASSWORD)
+        context.load_cert_chain(SECRETS / "cert.pem", SECRETS / "key.pem", PEM_PASSWORD)
         self.server.socket = context.wrap_socket(self.server.socket, server_side=True)
 
     def login(self) -> str:
